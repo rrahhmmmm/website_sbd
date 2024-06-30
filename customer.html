@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Customer - Flower Shop</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <style>
+        /* Additional styling specific to customer page */
+        .bg-gradient-customer {
+            background: linear-gradient(90deg, #f54ea2, #c533ec); /* Gradient from pink to purple */
+            text-align: center;
+            padding: 100px 0;
+            color: #fff;
+            font-size: 2rem;
+        }
+        .btn-gradient-customer {
+            background: linear-gradient(90deg, #f54ea2, #c533ec);
+            border-color: #f54ea2;
+            color: #fff;
+            transition: transform 0.3s ease;
+        }
+        .btn-gradient-customer:hover {
+            transform: scale(1.05); /* Scale up on hover */
+        }
+        .form-container {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .form-container:hover {
+            transform: translateY(-10px); /* Move up on hover */
+        }
+        form input,
+        form select {
+            margin-top: 10px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s ease;
+        }
+        form input:focus,
+        form select:focus {
+            border-color: #f54ea2; /* Highlight border on focus */
+        }
+        form button {
+            margin-top: 20px;
+            padding: 15px 30px;
+            background-color: #f54ea2; /* Pink color */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        form button:hover {
+            background-color: #de3b8e; /* Darker pink color on hover */
+        }
+    </style>
+</head>
+<body>
+    <header class="bg-gradient-customer">
+        <h1>Data Customer</h1>
+        <p>Masukkan atau cari data customer.</p>
+        <a href="index.html" class="btn btn-lg btn-gradient-customer">HOME PAGE</a>
+    </header>
+    <main class="container my-5">
+        <div class="row">
+            <div class="col-md-6 mx-auto form-container">
+                <form id="customerForm" class="shadow-sm p-4 bg-white rounded">
+                    <div class="form-group">
+                        <label for="customerId">ID Customer:</label>
+                        <input type="text" class="form-control" id="customerId" name="customerId" placeholder="Masukkan ID Customer" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Nama:</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan Nama" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Nomor Telepon:</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" placeholder="Masukkan Nomor Telepon" required>
+                    </div>
+                    <div class="form-group text-center">
+                        <button id="addBtn" type="submit" class="btn btn-lg btn-gradient-customer">ADD</button>
+                        <button id="searchBtn" type="submit" class="btn btn-lg btn-gradient-customer">SEARCH</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <footer class="bg-gradient-customer text-white text-center py-3">
+        
+    </footer>
+
+    <script>
+        // Simulasi pencarian dan penambahan data customer
+        document.getElementById('customerForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const customerId = document.getElementById('customerId').value;
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+
+            const customers = JSON.parse(localStorage.getItem('customers')) || [];
+
+            // Mendeteksi apakah tombol Search atau Add yang ditekan
+            const searchBtn = document.getElementById('searchBtn');
+            const addBtn = document.getElementById('addBtn');
+
+            if (searchBtn.matches(':focus')) {
+                // Tombol Search ditekan
+                const customer = customers.find(customer => customer.customerId === customerId);
+                if (customer) {
+                    alert(`Data Customer:\nNama: ${customer.name}\nNomor Telepon: ${customer.phone}`);
+                } else {
+                    alert('Data customer tidak ditemukan.');
+                }
+            } else if (addBtn.matches(':focus')) {
+                // Tombol Add ditekan
+                const newCustomer = {
+                    customerId,
+                    name,
+                    phone
+                };
+                customers.push(newCustomer);
+                localStorage.setItem('customers', JSON.stringify(customers));
+                alert('Data customer berhasil ditambahkan!');
+                document.getElementById('customerForm').reset();
+            }
+        });
+    </script>
+</body>
+</html>
